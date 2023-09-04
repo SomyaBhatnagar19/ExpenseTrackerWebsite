@@ -1,15 +1,19 @@
 import React from "react";
-import './index.css'; //to be included for tailwind functioning
-
-//files
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import SignUp from "./components/SignUp";
+import Welcome from "./components/Welcome";
 
-const App =() => {
+const App = () => {
   return (
-    <div>
-      <SignUp/>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Navigate to="/SignUp" />} />
+        <Route path="/SignUp" element={<SignUp />} />
+        <Route path="/Welcome" element={<Welcome />} />
+        <Route path="/LogIn" element={<SignUp />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;

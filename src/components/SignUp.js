@@ -1,14 +1,21 @@
 import React, {useState} from "react";
+import { useNavigate } from "react-router-dom";
 
 //image
 import signupIcon from './assets/signup.png';
+
+//files
+// import Welcome from "./Welcome";
 const SignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [isLogin, setIsLogin] = useState(true);
     const [error, setError] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
+    // const [successMessage, setSuccessMessage] = useState('');
+
+    const navigate = useNavigate(); //for navigated the loggedin user to welcome page
+
     const handleAuth = async () => {
       if (!email || !password) {
         setError('Email and password are required.');
@@ -42,13 +49,14 @@ const SignUp = () => {
   
         if (!response.ok) {
           setError(data.error.message);
-          setSuccessMessage('');
+        //   setSuccessMessage('');
         } else {
           if (isLogin) {
-            setSuccessMessage('You have successfully logged in.');
+            alert('You have successfully logged in.');
+            navigate("/Welcome");
             console.log('Logging in:', email, password);
           } else {
-            setSuccessMessage('You have successfully signed up.');
+            alert('You have successfully siggned in. Log in using using credentials to access expense tracker.');
             console.log('Signing up:', email, password);
           }
           // Reset form fields on successful login or sign-up
@@ -59,7 +67,7 @@ const SignUp = () => {
         }
       } catch (err) {
         setError('An error occurred.');
-        setSuccessMessage('');
+        // setSuccessMessage('');
       }
     };
   
@@ -102,7 +110,7 @@ const SignUp = () => {
             >
               {isLogin ? 'Log In' : 'Sign Up'}
             </button>
-            {successMessage && <p className="rounded text-green-800 m-1 bg-green-400 p-1 m-1">{successMessage}</p>}
+            {/* {successMessage && <p className="rounded text-green-800 m-1 bg-green-400 p-1 m-1">{successMessage}</p>} */}
             <p className="mt-2">
               {isLogin ? 'Need an account?' : 'Already have an account?'}{' '}
               <span
