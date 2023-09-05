@@ -3,7 +3,11 @@
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'profile': "url('/src/components/assets/profile.jpg')",
+      },
+    },
   },
   plugins: [],
 }

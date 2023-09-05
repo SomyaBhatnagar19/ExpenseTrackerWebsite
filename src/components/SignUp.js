@@ -5,14 +5,13 @@ import { useNavigate } from "react-router-dom";
 import signupIcon from './assets/signup.png';
 
 //files
-// import Welcome from "./Welcome";
+
 const SignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [isLogin, setIsLogin] = useState(true);
     const [error, setError] = useState('');
-    // const [successMessage, setSuccessMessage] = useState('');
 
     const navigate = useNavigate(); //for navigated the loggedin user to welcome page
 
@@ -46,10 +45,10 @@ const SignUp = () => {
         });
   
         const data = await response.json();
-  
+        // console.log(data);
+
         if (!response.ok) {
           setError(data.error.message);
-        //   setSuccessMessage('');
         } else {
           if (isLogin) {
             alert('You have successfully logged in.');
@@ -58,6 +57,7 @@ const SignUp = () => {
           } else {
             alert('You have successfully siggned in. Log in using using credentials to access expense tracker.');
             console.log('Signing up:', email, password);
+            localStorage.setItem('token', data.idToken); //storing the idToken to be used in the profile component for updating data here
           }
           // Reset form fields on successful login or sign-up
           setEmail('');
@@ -67,7 +67,6 @@ const SignUp = () => {
         }
       } catch (err) {
         setError('An error occurred.');
-        // setSuccessMessage('');
       }
     };
   
