@@ -46,7 +46,7 @@ const SignUp = () => {
   
         const data = await response.json();
         // console.log(data);
-
+        localStorage.setItem('token', data.idToken);
         if (!response.ok) {
           setError(data.error.message);
         } else {
@@ -57,7 +57,7 @@ const SignUp = () => {
           } else {
             alert('You have successfully siggned in. Log in using using credentials to access expense tracker.');
             console.log('Signing up:', email, password);
-            localStorage.setItem('token', data.idToken); //storing the idToken to be used in the profile component for updating data here
+            // localStorage.setItem('token', data.idToken); //storing the idToken to be used in the profile component for updating data here
           }
           // Reset form fields on successful login or sign-up
           setEmail('');

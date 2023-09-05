@@ -10,13 +10,21 @@ const Profile = () => {
 
   const updateProfile = async (e) => {
     e.preventDefault();
-    setIsLoading(true); // Set loading state to true
+    setIsLoading(true);
+  
     try {
       const idToken = localStorage.getItem("token");
-      console.log("idToken:", idToken); 
+      console.log("idToken:", idToken);
+  
+      if (!idToken) {
+        console.error("ID token is missing or invalid.");
+        alert("ID token is missing or invalid.");
+        setIsLoading(false);
+        return;
+      }
   
       const response = await fetch(
-        `https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyCA54c2FvusfrWM1tu6REcI_H-OVsXTm84`,
+        "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyCA54c2FvusfrWM1tu6REcI_H-OVsXTm84", // Replace with your API key
         {
           method: "POST",
           headers: {
@@ -34,21 +42,24 @@ const Profile = () => {
       if (!response.ok) {
         const errorData = await response.json();
         console.error("Error updating user profile:", errorData);
-        alert(errorData);
-        return; 
+        alert("Error updating user profile: " + errorData.error.message);
+        setIsLoading(false);
+        return;
       }
   
       const data = await response.json();
       console.log("User details updated successfully:", data);
-      alert("User details updated successfully", data);
+      alert("User details updated successfully");
       setFullName("");
       setProfilePhotoUrl("");
     } catch (error) {
       console.error("Error updating user profile:", error);
-      alert("Error updating user profile:", error);
+      alert("Error updating user profile: " + error.message);
     }
-    setIsLoading(false); // Set loading state to false when done
+  
+    setIsLoading(false);
   };
+  
   
   return (
     <div className="bg-profile h-screen bg-cover bg-center relative sm:bg-contain lg:bg-cover">
