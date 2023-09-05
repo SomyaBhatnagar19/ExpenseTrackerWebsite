@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 //image
 // import profileBg from './assets/profile.jpg';
 
@@ -7,7 +7,7 @@ const Profile = () => {
   const [fullName, setFullName] = useState("");
   const [profilePhotoUrl, setProfilePhotoUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
+  const navigate = useNavigate();
   const updateProfile = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -52,6 +52,7 @@ const Profile = () => {
       alert("User details updated successfully");
       setFullName("");
       setProfilePhotoUrl("");
+      navigate('/UserDetails');
     } catch (error) {
       console.error("Error updating user profile:", error);
       alert("Error updating user profile: " + error.message);

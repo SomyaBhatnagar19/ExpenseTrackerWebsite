@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-d
 import SignUp from "./components/SignUp";
 import Welcome from "./components/Welcome";
 import Profile from "./components/Profile";
+import UserDetails from "./components/UserDetails";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Route path="/Welcome" element={<Welcome />} />
         <Route path="/LogIn" element={<SignUp />} />
         <Route path="/Profile" element={<Profile />} />
+        <Route path="/UserDetails" element={<UserDetails />} />
       </Routes>
     </Router>
   );
