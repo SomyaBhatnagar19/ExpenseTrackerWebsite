@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 //icons
-import verifiedIcon from './assets/verified.png';
+import verifiedIcon from "./assets/verified.png";
+import logoutIcon from "./assets/logout.png";
 
 const UserDetails = () => {
   const [userData, setUserData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [verificationStatus, setVerificationStatus] = useState(null);
+  const navigate = useNavigate();
 
   const sendVerificationEmail = () => {
     const idToken = localStorage.getItem("token");
@@ -44,6 +47,12 @@ const UserDetails = () => {
         setVerificationStatus("Failed to send verification email.");
       });
   };
+
+  const logoutHandler = () => {
+    localStorage.removeItem("token");
+    alert("User logged out sucessfully.")
+    navigate('/SignUp');
+  }
 
   useEffect(() => {
     const idToken = localStorage.getItem("token");
@@ -83,8 +92,8 @@ const UserDetails = () => {
 
           if (user.emailVerified) {
             // Email is verified, show verification status
-            alert('Your Email has been successfully Verified.')
             setVerificationStatus("VERIFIED");
+            alert("Your Email has been successfully Verified.");
           } else {
             // Email is not verified, show verification button
             setVerificationStatus(null);
@@ -103,17 +112,22 @@ const UserDetails = () => {
   }, []);
 
   return (
-    <div>
-      <div className="bg-stone-200 p-5 flex justify-between shadow-lg">
+    <div className="bg-userDetail h-screen bg-cover bg-center relative sm:bg-contain lg:bg-cover">
+      <div className="bg-stone-200 p-5 sm:flex sm:justify-between shadow-lg">
         <h4 className="text-lg italic font-semibold border-l-4 border-emerald-700 pl-4 text-emerald-700">
           Hello {userData.fullName}!! Welcome to Expense Tracker
         </h4>
-        <span className="bg-emerald-500 text-white text-right text-sm p-1 rounded-xl">
-          Your profile is now 100% complete.
-        </span>
+        <div className="flex items-center justify-end space-x-2">
+          <span className="bg-emerald-500 text-white text-right text-sm p-1 rounded-xl">
+            Your profile is now 100% complete.
+          </span>
+          <button onClick={logoutHandler}>
+            <img src={logoutIcon} alt="logout-icon" className="w-10 h-10" />
+          </button>
+        </div>
       </div>
 
-      <div className="container mx-auto mt-8">
+      <div className="container mx-auto mt-8" >
         {isLoading ? (
           <div className="flex items-center justify-center">
             <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-emerald-500 "></div>
@@ -154,13 +168,21 @@ const UserDetails = () => {
               </table>
 
               <hr className="mt-2 mb-1 border border-emerald-500"></hr>
-              <div className="flex justify-between mr-3 ml-3">
-                <span className="text-left">Email Verification Status:</span>
+              <div className="flex flex-col sm:flex-row justify-between mr-3 ml-3">
+                <span className="text-left mb-2 sm:mb-0">
+                  Email Verification Status:
+                </span>
                 {verificationStatus ? (
                   <div className="flex items-center">
-                  <span className="text-right text-emerald-700 italic pr-2">{verificationStatus}</span>
-                  <img src={verifiedIcon} alt="verification-icon" className="w-10 h-10" />
-                </div>
+                    <span className="text-right text-emerald-700 italic pr-2">
+                      {verificationStatus}
+                    </span>
+                    <img
+                      src={verifiedIcon}
+                      alt="verification-icon"
+                      className="w-10 h-10"
+                    />
+                  </div>
                 ) : (
                   <button
                     className="text-right bg-teal-800 text-white p-2 rounded hover:bg-teal-600"
@@ -177,5 +199,4 @@ const UserDetails = () => {
     </div>
   );
 };
-
 export default UserDetails;

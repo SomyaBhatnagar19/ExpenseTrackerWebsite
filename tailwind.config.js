@@ -6,6 +6,7 @@ module.exports = {
     extend: {
       backgroundImage: {
         'profile': "url('/src/components/assets/profile.jpg')",
+        'UserDetails': "url('/src/components/assets/userDetail.jpg')"
       },
     },
   },
