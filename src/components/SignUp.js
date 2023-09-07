@@ -76,15 +76,19 @@ const SignUp = () => {
     }
 
     return (
-      <div className="flex h-screen">
-        <div className="flex-1 flex items-center justify-center bg-stone-200">
-        <div className="border border-emerald-100 p-4 m-4 bg-opacity-20 bg-emerald-700 w-80 h-70 shadow-lg">
-            <img src={signupIcon} alt="sign-up-icon" className="mx-auto my-auto w-20 h-20"/>
-            <h2 className="text-2xl font-semibold mb-4 flex justify-center items-center">
+      <div className="min-h-screen flex items-center justify-center p-4 bg-stone-100">
+        <div className="flex items-center justify-center bg-white shadow-lg ">
+        <div className="w-80 h-70 shadow-lg">
+            <div className="border-l-4 border-emerald-600 bg-stone-200 flex items-center justify-between p-2 shadow-md">
+            <h2 className="text-2xl font-semibold italic mb-4 ">
               {isLogin ? 'Log In' : 'Sign Up'}
             </h2>
-            <hr className="border border-emerald-500 my-2"></hr>
+            <img src={signupIcon} alt="sign-up-icon" className="w-10 h-10"/>
+            </div>
+            
+            
             {error && <p className="rounded text-red-500 m-1 bg-red-200 p-1">{error}</p>}
+            <div className="p-4">
             <input
               type="email"
               className="w-full p-2 rounded border mb-2"
@@ -115,6 +119,7 @@ const SignUp = () => {
               {isLogin ? 'Log In' : 'Sign Up'}
             </button>
             {/* {successMessage && <p className="rounded text-green-800 m-1 bg-green-400 p-1 m-1">{successMessage}</p>} */}
+            <hr className="border border-emerald-500 my-2"></hr>
             <p className="mt-2">
               {isLogin ? 'Need an account?' : 'Already have an account?'}{' '}
               <span
@@ -124,8 +129,9 @@ const SignUp = () => {
                 {isLogin ? 'Sign Up' : 'Log In'}
               </span>
               <br/>
-              <button className="mt-1 cursor-pointer text-blue-500" onClick={ForgotPasswordHandler}>Forgot Password?</button>
+              <button className="mt-1 cursor-pointer hover:underline text-blue-500" onClick={ForgotPasswordHandler}>Forgot Password?</button>
             </p>
+          </div>
           </div>
         </div>
         
