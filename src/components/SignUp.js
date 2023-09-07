@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 //image
 import signupIcon from './assets/signup.png';
+import ForgotPassword from "./ForgotPassword";
 
 //files
 
@@ -70,6 +71,10 @@ const SignUp = () => {
       }
     };
   
+    const ForgotPasswordHandler = () => {
+      navigate('/ForgotPassword');
+    }
+
     return (
       <div className="flex h-screen">
         <div className="flex-1 flex items-center justify-center bg-stone-200">
@@ -118,6 +123,8 @@ const SignUp = () => {
               >
                 {isLogin ? 'Sign Up' : 'Log In'}
               </span>
+              <br/>
+              <button className="mt-1 cursor-pointer text-blue-500" onClick={ForgotPasswordHandler}>Forgot Password?</button>
             </p>
           </div>
         </div>
