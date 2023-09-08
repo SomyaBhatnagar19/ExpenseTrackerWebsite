@@ -5,10 +5,14 @@ import { useNavigate } from "react-router-dom";
 import verifiedIcon from "./assets/verified.png";
 import logoutIcon from "./assets/logout.png";
 
+//files
+import ExpenseForm from "./ExpenseForm";
+
 const UserDetails = () => {
   const [userData, setUserData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [verificationStatus, setVerificationStatus] = useState(null);
+  const [addingExpense, setAddingExpense] = useState(false); // New state for tracking if the user wants to add expensesconst [addingExpense, setAddingExpense] = useState(false); // New state for tracking if the user wants to add expenses
   const navigate = useNavigate();
 
   const sendVerificationEmail = () => {
@@ -50,8 +54,12 @@ const UserDetails = () => {
 
   const logoutHandler = () => {
     localStorage.removeItem("token");
-    alert("User logged out sucessfully.")
-    navigate('/SignUp');
+    alert("User logged out sucessfully.");
+    navigate("/SignUp");
+  };
+
+  const navigateToExpenseForm = () => {
+    navigate('/ExpenseForm');
   }
 
   useEffect(() => {
@@ -115,7 +123,7 @@ const UserDetails = () => {
     <div className="bg-userDetail h-screen bg-cover bg-center relative sm:bg-contain lg:bg-cover">
       <div className="bg-stone-200 p-5 sm:flex sm:justify-between shadow-lg">
         <h4 className="text-lg italic font-semibold border-l-4 border-emerald-700 pl-4 text-emerald-700">
-          Hello {userData.fullName}!! Welcome to Expense Tracker
+          Hello {userData.fullName}!! Welcome to Expense Tracker.
         </h4>
         <div className="flex items-center justify-end space-x-2">
           <span className="bg-emerald-500 text-white text-right text-sm p-1 rounded-xl">
@@ -127,13 +135,13 @@ const UserDetails = () => {
         </div>
       </div>
 
-      <div className="container mx-auto mt-8" >
+      <div className="container mx-auto mt-8">
         {isLoading ? (
           <div className="flex items-center justify-center">
             <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-emerald-500 "></div>
           </div>
         ) : (
-          <div className="shadow-md rounded-lg">
+          <div className="shadow-md ">
             <div className="border-l-4 border-emerald-700 bg-stone-100 shadow-md">
               <h2 className="text-xl italic ml-1 mb-1 font-semibold">
                 User Details
@@ -195,8 +203,30 @@ const UserDetails = () => {
             </div>
           </div>
         )}
+        {/* Conditional rendering of the ExpenseForm component */}
+        {addingExpense ? (
+          <ExpenseForm onExpenseSubmit={() => setAddingExpense(false)} />
+        ) : (
+          <div className="border shadow-md">
+            <div className="border-l-4 border-emerald-700 bg-stone-100 shadow-md">
+              <h2 className="text-xl italic ml-1 mb-1 font-semibold">
+                Your Expenses
+              </h2>
+            </div>
+            <div className="bg-white p-2">
+              {/* Button to navigate to ExpenseForm */}
+              <button
+                className="bg-emerald-700 text-white p-2 rounded hover:bg-emerald-600"
+                onClick={navigateToExpenseForm}
+              >
+                Add New Expense
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 };
+
 export default UserDetails;

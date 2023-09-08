@@ -5,6 +5,7 @@ import Welcome from "./components/Welcome";
 import Profile from "./components/Profile";
 import UserDetails from "./components/UserDetails";
 import ForgotPassword from "./components/ForgotPassword";
+import ExpenseForm from "./components/ExpenseForm";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/Profile" element={<Profile />} />
         <Route path="/UserDetails" element={<UserDetails />} />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
+        <Route path="/ExpenseForm" element={<ExpenseForm />} />
       </Routes>
     </Router>
   );
