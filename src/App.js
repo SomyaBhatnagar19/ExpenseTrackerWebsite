@@ -6,7 +6,7 @@ import Profile from "./components/Profile";
 import UserDetails from "./components/UserDetails";
 import ForgotPassword from "./components/ForgotPassword";
 import ExpenseForm from "./components/ExpenseForm";
-
+import ExpenseReport from "./components/ExpenseReport";
 const App = () => {
   return (
     <Router>
@@ -19,6 +19,7 @@ const App = () => {
         <Route path="/UserDetails" element={<UserDetails />} />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
         <Route path="/ExpenseForm" element={<ExpenseForm />} />
+        <Route path="/ExpenseReport" element={<ExpenseReport />} />
       </Routes>
     </Router>
   );

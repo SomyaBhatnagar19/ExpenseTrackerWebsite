@@ -11,7 +11,7 @@ const SignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [isLogin, setIsLogin] = useState(true);
+    const [isLogin, setIsLogin] = useState(false);
     const [error, setError] = useState('');
 
     const navigate = useNavigate(); //for navigated the loggedin user to welcome page
@@ -55,6 +55,7 @@ const SignUp = () => {
             alert('You have successfully logged in.');
             navigate("/Welcome");
             console.log('Logging in:', email, password);
+            setIsLogin(true);
           } else {
             alert('You have successfully siggned in. Log in using using credentials to access expense tracker.');
             console.log('Signing up:', email, password);
