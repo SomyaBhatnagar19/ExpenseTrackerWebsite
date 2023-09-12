@@ -64,26 +64,31 @@ const Profile = () => {
   
   return (
     <div className="bg-profile h-screen bg-cover bg-center relative sm:bg-contain lg:bg-cover">
-      <div className="bg-stone-100 p-5">
+      <div className="bg-stone-200 p-5 flex justify-between items-center">
+        <h4 className="text-left text-lg">Expense Tracker</h4>
         <h4 className="text-right text-sm">
           Your profile is only 64% complete.
         </h4>
       </div>
-      <h2 className="text-2xl font-semibold m-4 text-center">
+      
+      <div className="container mx-auto max-w-md bg-white shadow-lg rounded-lg mt-4">
+        <div className="border-l-4 border-emerald-600 bg-stone-200 flex items-center justify-between p-2 shadow-md">
+        <h2 className="text-lg font-semibold italic text-center">
         Contact Details
       </h2>
-      <div className="container mx-auto max-w-md p-4 bg-emerald-200 shadow-lg rounded-lg ">
+        </div>
         {isLoading ? ( // Conditionally render loading spinner
           <div className="flex items-center justify-center">
             <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-emerald-500 bg-gradient-to-b from-emerald-400 via-emerald-800 to-green-500"></div>
 
           </div>
         ) : (
+          <div className="p-2">
           <form className="grid grid-cols-2 gap-1" onSubmit={updateProfile}>
             <div className="col-span-2 mb-4">
               <label
                 htmlFor="fullname"
-                className="block text-lg font-semibold mb-1"
+                className="block text-md font-semibold mb-1"
               >
                 Full Name:
               </label>
@@ -95,10 +100,10 @@ const Profile = () => {
                 onChange={(e) => setFullName(e.target.value)}
               />
             </div>
-            <div className="col-span-2 mb-4">
+            <div className="col-span-2 mb-2">
               <label
                 htmlFor="photourl"
-                className="block text-lg font-semibold mb-1"
+                className="block text-md font-semibold mb-1"
               >
                 Profile Photo URL:
               </label>
@@ -122,6 +127,7 @@ const Profile = () => {
               </button>
             </div>
           </form>
+          </div>
         )}
       </div>
     </div>

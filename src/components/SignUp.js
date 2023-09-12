@@ -3,9 +3,11 @@ import { useNavigate } from "react-router-dom";
 
 //image
 import signupIcon from './assets/signup.png';
-import ForgotPassword from "./ForgotPassword";
+// import ForgotPassword from "./ForgotPassword";
 
 //files
+// import ExpenseForm from "./ExpenseForm";
+import Header from "./Header";
 
 const SignUp = () => {
     const [email, setEmail] = useState('');
@@ -77,6 +79,8 @@ const SignUp = () => {
     }
 
     return (
+      <>
+      <Header/>
       <div className="min-h-screen flex items-center justify-center p-4 bg-stone-100">
         <div className="flex items-center justify-center bg-white shadow-lg ">
         <div className="w-80 h-70 shadow-lg">
@@ -137,6 +141,7 @@ const SignUp = () => {
         </div>
         
       </div>
+      </>
     );
 };
 

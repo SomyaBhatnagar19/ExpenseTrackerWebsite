@@ -8,6 +8,7 @@ import logoutIcon from "./assets/logout.png";
 //files
 import ExpenseForm from "./ExpenseForm";
 
+
 const UserDetails = () => {
   const [userData, setUserData] = useState({});
   const [isLoading, setIsLoading] = useState(true);

@@ -7,6 +7,7 @@ import ExpenseReportIcon from "./assets/expenseReport.png";
 
 //file
 import ExpenseReport from "./ExpenseReport";
+import Header from "./Header";
 
 const ExpenseForm = ({ onExpenseSubmit }) => {
   const [expenseData, setExpenseData] = useState({
@@ -16,6 +17,7 @@ const ExpenseForm = ({ onExpenseSubmit }) => {
   });
 
   const [expenses, setExpenses] = useState([]);
+
 
   const realtimeDbFirebase =
     "https://expensetracker-20504-default-rtdb.firebaseio.com/Expenses.json";
@@ -69,6 +71,9 @@ const ExpenseForm = ({ onExpenseSubmit }) => {
       });
   };
   return (
+    <>
+    <Header/>
+    
     <div className="bg-stone-100 min-h-screen p-10">
       <div className="bg-white shadow-md w-full sm:w-full xl:w-full">
         <div className="bg-stone-200 sm:flex sm:justify-between shadow-lg">
@@ -121,7 +126,7 @@ const ExpenseForm = ({ onExpenseSubmit }) => {
                   <option value="Necessity/Body Care">
                     Necessity/Body Care
                   </option>
-                  <option value="Fuel/Travel">Snacks/ Junk Food</option>
+                  <option value="Snacks/ Junk Food">Snacks/ Junk Food</option>
                   <option value="Fuel/Travel">Fuel/Travel</option>
                   <option value="Education">Education</option>
                   <option value="Electronics">Electronics</option>
@@ -162,13 +167,13 @@ const ExpenseForm = ({ onExpenseSubmit }) => {
           <div className="bg-stone-200 sm:flex sm:justify-between shadow-lg">
             <h4 className="text-lg italic font-semibold border-l-4 border-emerald-700 pl-4 text-emerald-700 flex items-center justify-between">
               Expense Report
-              <div className="me-auto">
+              
                 <img
                   src={ExpenseReportIcon}
                   alt="expenseReport-icon"
                   className="w-10 h-10 p-1"
                 />
-              </div>
+              
             </h4>
           </div>
 
@@ -180,6 +185,7 @@ const ExpenseForm = ({ onExpenseSubmit }) => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
