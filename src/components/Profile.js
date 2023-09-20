@@ -1,3 +1,4 @@
+//Profile
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 //image
@@ -59,6 +60,7 @@ const Profile = () => {
     }
   
     setIsLoading(false);
+    
   };
   
   

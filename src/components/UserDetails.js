@@ -1,6 +1,9 @@
+//UserDetails
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import {useSelector} from "react-redux";
+import { useDispatch } from "react-redux";
+import { setVerificationStatus } from "../store/Auth";
 //icons
 import verifiedIcon from "./assets/verified.png";
 import logoutIcon from "./assets/logout.png";
@@ -12,46 +15,133 @@ import ExpenseForm from "./ExpenseForm";
 const UserDetails = () => {
   const [userData, setUserData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [verificationStatus, setVerificationStatus] = useState(null);
+  // const [verificationStatus, setVerificationStatus] = useState(null);
   const [addingExpense, setAddingExpense] = useState(false); // New state for tracking if the user wants to add expensesconst [addingExpense, setAddingExpense] = useState(false); // New state for tracking if the user wants to add expenses
   const navigate = useNavigate();
 
-  const sendVerificationEmail = () => {
-    const idToken = localStorage.getItem("token");
+  // const sendVerificationEmail = () => {
+  //   const idToken = localStorage.getItem("token");
 
-    if (!idToken) {
-      console.error("ID token is missing or invalid.");
-      return;
-    }
+  //   if (!idToken) {
+  //     console.error("ID token is missing or invalid.");
+  //     return;
+  //   }
 
-    fetch(
-      `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyCA54c2FvusfrWM1tu6REcI_H-OVsXTm84`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          requestType: "VERIFY_EMAIL",
-          idToken: idToken,
-        }),
-      }
-    )
+  //   fetch(
+  //     `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyCA54c2FvusfrWM1tu6REcI_H-OVsXTm84`,
+  //     {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         requestType: "VERIFY_EMAIL",
+  //         idToken: idToken,
+  //       }),
+  //     }
+  //   )
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error("Network response was not ok");
+  //       }
+  //       return response.json();
+  //     })
+  //     .then(() => {
+  //       console.log("Verification email sent successfully.");
+  //       setVerificationStatus("Verification email sent. Check your inbox.");
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error sending verification email:", error);
+  //       setVerificationStatus("Failed to send verification email.");
+  //     });
+  // };
+
+  const dispatch = useDispatch();
+  const verificationStatus = useSelector((state) => state.verification.status);
+  
+  const [verificationMessage, setVerificationMessage] = useState('');
+  const [showSpinner, setShowSpinner] = useState(false);
+  // const darkMode = useSelector((state) => state.theme.darkMode);
+
+    const sendEmailVerification = () => {
+    setShowSpinner(true); // Show the spinner
+    setVerificationMessage(
+      'A verification email has been sent to your registered email address. Please check your email for the verification link. Thank you.'
+    );
+
+    // Send email verification request to Firebase
+    const idToken = localStorage.getItem('token');
+    fetch('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyCA54c2FvusfrWM1tu6REcI_H-OVsXTm84', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        idToken,
+        requestType: 'VERIFY_EMAIL',
+      }),
+    })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error('Network response was not ok');
         }
         return response.json();
       })
       .then(() => {
-        console.log("Verification email sent successfully.");
-        setVerificationStatus("Verification email sent. Check your inbox.");
+        console.log('Verification email sent successfully');
+        dispatch(setVerificationStatus('pending')); // Set status back to pending
+        setTimeout(() => {
+          // Check email verification status after a delay
+          checkEmailVerificationStatus();
+        }, 1000);
       })
       .catch((error) => {
-        console.error("Error sending verification email:", error);
-        setVerificationStatus("Failed to send verification email.");
+        console.error('Error sending verification email:', error);
+        setShowSpinner(false); // Hide the spinner
+        setVerificationMessage('Error sending verification email. Please try again later.');
       });
   };
+
+  const checkEmailVerificationStatus = () => {
+    // Verify the email verification status using Firebase
+    const idToken = localStorage.getItem('token');
+
+    fetch('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyCA54c2FvusfrWM1tu6REcI_H-OVsXTm84', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        idToken: idToken,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const user = data.users[0];
+        if (user.emailVerified) {
+          dispatch(setVerificationStatus('verified')); // Set status to verified
+          setTimeout(() => {
+            navigate('/UserDetails'); // Navigate after verification
+          }, 2000); // Wait for 2 seconds before navigating
+        } else {
+          dispatch(setVerificationStatus('not-verified')); // Set status to not-verified
+        }
+      })
+      .catch((error) => {
+        console.error('Error checking email verification:', error);
+        dispatch(setVerificationStatus('error')); // Set status to error
+      });
+  };
+
+  useEffect(() => {
+    // Check email verification status on component mount
+    checkEmailVerificationStatus();
+  }, []);
 
   const logoutHandler = () => {
     localStorage.removeItem("token");
@@ -181,7 +271,7 @@ const UserDetails = () => {
                 <span className="text-left mb-2 sm:mb-0">
                   Email Verification Status:
                 </span>
-                {verificationStatus ? (
+                {verificationStatus === 'verified'  ? (
                   <div className="flex items-center">
                     <span className="text-right text-emerald-700 italic pr-2">
                       {verificationStatus}
@@ -195,7 +285,7 @@ const UserDetails = () => {
                 ) : (
                   <button
                     className="text-right bg-teal-800 text-white p-2 rounded hover:bg-teal-600"
-                    onClick={sendVerificationEmail}
+                    onClick={sendEmailVerification}
                   >
                     Click to Verify Email
                   </button>
