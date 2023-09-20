@@ -74,7 +74,7 @@ const ExpenseReport = ({ expenses, onDelete, onEdit }) => {
       <span className="p-2 border border-gray-300">Rs. {totalExpense}</span>
       {totalExpense>1000 && <button
                   type="button"
-                  className="bg-orange-500 text-white p-2 rounded hover:bg-gray-300 ml-2"
+                  className="bg-orange-500 text-white p-2 rounded hover:bg-orange-200 ml-2"
                   
                 >
                   Update Premium

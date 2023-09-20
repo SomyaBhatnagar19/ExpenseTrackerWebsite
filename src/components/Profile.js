@@ -9,10 +9,17 @@ const Profile = () => {
   const [profilePhotoUrl, setProfilePhotoUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  
+  const nameChangeHandler = (e) => {
+    setFullName(e.target.value);
+  }
+  const photoChangeHandler = (e) => {
+    setProfilePhotoUrl(e.target.value);
+  }
   const updateProfile = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-  
+    const userName = localStorage.setItem('userName', fullName);
     try {
       const idToken = localStorage.getItem("token");
       console.log("idToken:", idToken);
@@ -54,6 +61,7 @@ const Profile = () => {
       setFullName("");
       setProfilePhotoUrl("");
       navigate('/UserDetails');
+
     } catch (error) {
       console.error("Error updating user profile:", error);
       alert("Error updating user profile: " + error.message);
@@ -99,7 +107,7 @@ const Profile = () => {
                 id="fullName"
                 className="w-full px-3 py-2 border rounded focus:outline-none focus:border-emerald-500"
                 value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
+                onChange={nameChangeHandler}
               />
             </div>
             <div className="col-span-2 mb-2">
@@ -114,7 +122,7 @@ const Profile = () => {
                 id="profilePhotoUrl"
                 className="w-full px-3 py-2 border rounded focus:outline-none focus:border-emerald-500"
                 value={profilePhotoUrl}
-                onChange={(e) => setProfilePhotoUrl(e.target.value)}
+                onChange={photoChangeHandler}
               />
             </div>
             <div className="col-span-2">

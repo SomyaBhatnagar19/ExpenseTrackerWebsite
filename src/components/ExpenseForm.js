@@ -18,11 +18,12 @@ const ExpenseForm = () => {
   const [message, setMessage] = useState("");
   // Include a user identifier, e.g., userId, in the API URL
   const userId = `${expenseData.id}`; // Replace with the actual user ID
-  const realtimeDbFirebase = `https://expensetracker-20504-default-rtdb.firebaseio.com/Users/${userId}/Expenses.json`;
+  const userName = localStorage.getItem("userName");
+  // const `https://expensetracker-20504-default-rtdb.firebaseio.com/${userName}.json` = `https://expensetracker-20504-default-rtdb.firebaseio.com/Users/${userId}/Expenses.json`;
 
   const fetchExpenses = () => {
     axios
-      .get(realtimeDbFirebase)
+      .get(`https://expensetracker-20504-default-rtdb.firebaseio.com/${userName}.json`)
       .then((response) => {
         const data = response.data;
         if (data) {
@@ -57,7 +58,7 @@ const ExpenseForm = () => {
       // Editing an existing expense
       axios
         .put(
-          `https://expensetracker-20504-default-rtdb.firebaseio.com/Users/${userId}/Expenses/${editingExpense.id}.json`,
+          `https://expensetracker-20504-default-rtdb.firebaseio.com/${userName}/${editingExpense.id}.json`,
           expenseData
         )
         .then((response) => {
@@ -71,7 +72,7 @@ const ExpenseForm = () => {
     } else {
       // Adding a new expense
       axios
-        .post(realtimeDbFirebase, expenseData)
+        .post(`https://expensetracker-20504-default-rtdb.firebaseio.com/${userName}.json`, expenseData)
         .then((response) => {
           console.log("Expense added successfully:", response);
           setExpenseData({
@@ -91,7 +92,7 @@ const ExpenseForm = () => {
   const handleDelete = (itemId) => {
     axios
       .delete(
-        `https://expensetracker-20504-default-rtdb.firebaseio.com/Users/${userId}/Expenses/${itemId}.json`
+        `https://expensetracker-20504-default-rtdb.firebaseio.com/${userName}/${itemId}.json`
       )
       .then((response) => {
         console.log("Expense deleted successfully:", response);
