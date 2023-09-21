@@ -77,7 +77,7 @@ const ExpenseReport = ({ expenses, onDelete, onEdit }) => {
                   className="bg-orange-500 text-white p-2 rounded hover:bg-orange-200 ml-2"
                   
                 >
-                  Update Premium
+                  Activate Premium
                 </button>}
     </div>
   );

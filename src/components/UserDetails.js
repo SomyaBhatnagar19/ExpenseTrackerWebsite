@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom";
 import {useSelector} from "react-redux";
 import { useDispatch } from "react-redux";
 import { setVerificationStatus } from "../store/Auth";
+import { toggleTheme } from "../store/theme";
 //icons
 import verifiedIcon from "./assets/verified.png";
 import logoutIcon from "./assets/logout.png";
-
+import darkIcon from "./assets/dark.png";
+import lightIcon from "./assets/light.png";
 //files
 import ExpenseForm from "./ExpenseForm";
 
@@ -19,46 +21,16 @@ const UserDetails = () => {
   const [addingExpense, setAddingExpense] = useState(false); // New state for tracking if the user wants to add expensesconst [addingExpense, setAddingExpense] = useState(false); // New state for tracking if the user wants to add expenses
   const navigate = useNavigate();
 
-  // const sendVerificationEmail = () => {
-  //   const idToken = localStorage.getItem("token");
-
-  //   if (!idToken) {
-  //     console.error("ID token is missing or invalid.");
-  //     return;
-  //   }
-
-  //   fetch(
-  //     `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyCA54c2FvusfrWM1tu6REcI_H-OVsXTm84`,
-  //     {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         requestType: "VERIFY_EMAIL",
-  //         idToken: idToken,
-  //       }),
-  //     }
-  //   )
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw new Error("Network response was not ok");
-  //       }
-  //       return response.json();
-  //     })
-  //     .then(() => {
-  //       console.log("Verification email sent successfully.");
-  //       setVerificationStatus("Verification email sent. Check your inbox.");
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error sending verification email:", error);
-  //       setVerificationStatus("Failed to send verification email.");
-  //     });
-  // };
-
   const dispatch = useDispatch();
   const verificationStatus = useSelector((state) => state.verification.status);
   
+  
+  const darkMode = useSelector((state) => state.theme.darkMode);
+
+   const themeModeHandler = () => {
+    dispatch(toggleTheme());
+  };
+
   const [verificationMessage, setVerificationMessage] = useState('');
   const [showSpinner, setShowSpinner] = useState(false);
   // const darkMode = useSelector((state) => state.theme.darkMode);
@@ -211,7 +183,7 @@ const UserDetails = () => {
   }, []);
 
   return (
-    <div className="bg-userDetail h-screen bg-cover bg-center relative sm:bg-contain lg:bg-cover">
+    <div className={`bg-userDetail h-screen ${darkMode ? 'bg-gray-900' : 'bg-cover bg-center'} relative sm:bg-contain lg:bg-cover`}>
       <div className="bg-stone-200 p-5 sm:flex sm:justify-between shadow-lg">
         <h4 className="text-lg italic font-semibold border-l-4 border-emerald-700 pl-4 text-emerald-700">
           Hello {userData.fullName}!! Welcome to Expense Tracker.
@@ -224,6 +196,20 @@ const UserDetails = () => {
             <img src={logoutIcon} alt="logout-icon" className="w-10 h-10" />
           </button>
         </div>
+      </div>
+    {/* logic for theme */}
+    <div className="absolute top-24 right-4 flex items-center">
+        <button
+          onClick={themeModeHandler}
+          className="px-4 py-2 bg-gray-200 dark:bg-gray-800 rounded-lg shadow-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700"
+        >
+          {darkMode ? (
+            <img src={darkIcon} alt="Dark Mode Icon" className="w-5 h-5" />
+          ) : (
+            <img src={lightIcon} alt="Light Mode Icon" className="w-5 h-5" />
+          )}
+          <span className="ml-2">{darkMode ? "Dark Mode" : "Light Mode"}</span>
+        </button>
       </div>
 
       <div className="container mx-auto mt-8">
@@ -238,7 +224,7 @@ const UserDetails = () => {
                 User Details
               </h2>
             </div>
-            <div className="p-3 shadow-md">
+            <div className="p-3 shadow-md bg-neutral-50">
               <table className="w-full border border-gray-300 rounded-md">
                 <tbody>
                   <tr className="border-b border-gray-300">

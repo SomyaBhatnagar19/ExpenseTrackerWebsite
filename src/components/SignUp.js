@@ -94,21 +94,24 @@ const SignUp = () => {
   return (
     <>
       <Header />
-      <div className="fixed bottom right-4 mt-3">
-      
-        <button onClick={themeModeHandler} className="p-2 focus:outline-none">
+      {/* logic for theme */}
+      <div className="absolute top-24 right-4 flex items-center">
+        <button
+          onClick={themeModeHandler}
+          className="px-4 py-2 bg-gray-200 dark:bg-gray-800 rounded-lg shadow-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700"
+        >
           {darkMode ? (
-            <img src={darkIcon} alt="Dark Mode Icon" className="w-10 h-10" />
+            <img src={darkIcon} alt="Dark Mode Icon" className="w-5 h-5" />
           ) : (
-            <img src={lightIcon} alt="Light Mode Icon" className="w-10 h-10" />
+            <img src={lightIcon} alt="Light Mode Icon" className="w-5 h-5" />
           )}
-          <span className="text-xs font-emerald-400">{darkMode ? 'Dark Mode' : 'Light Mode'}</span>
+          <span className="ml-2">{darkMode ? "Dark Mode" : "Light Mode"}</span>
         </button>
       </div>
 
       <div
         className={`min-h-screen flex items-center justify-center p-4 ${
-          darkMode ? "bg-white" : "bg-stone-600"
+          darkMode ? "bg-white" : "bg-slate-900"
         }`}
       >
         <div className="flex items-center justify-center bg-white shadow-lg ">

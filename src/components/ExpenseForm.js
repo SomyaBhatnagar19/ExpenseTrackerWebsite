@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import dropdownIcon from "./assets/dropdown.png";
-import AddExpenseIcon from "./assets/addExpense.png";
 import ExpenseReportIcon from "./assets/expenseReport.png";
 import ExpenseReport from "./ExpenseReport";
 import Header from "./Header";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleTheme } from "../store/theme";
+
+//icons
+import dropdownIcon from "./assets/dropdown.png";
+import AddExpenseIcon from "./assets/addExpense.png";
+import darkIcon from "./assets/dark.png";
+import lightIcon from "./assets/light.png";
 
 const ExpenseForm = () => {
   const [expenseData, setExpenseData] = useState({
@@ -17,9 +23,15 @@ const ExpenseForm = () => {
   const [editingExpense, setEditingExpense] = useState(null);
   const [message, setMessage] = useState("");
   // Include a user identifier, e.g., userId, in the API URL
-  const userId = `${expenseData.id}`; // Replace with the actual user ID
+  // const userId = `${expenseData.id}`; // Replace with the actual user ID
   const userName = localStorage.getItem("userName");
   // const `https://expensetracker-20504-default-rtdb.firebaseio.com/${userName}.json` = `https://expensetracker-20504-default-rtdb.firebaseio.com/Users/${userId}/Expenses.json`;
+  const dispatch = useDispatch();
+  const darkMode = useSelector((state) => state.theme.darkMode);
+
+   const themeModeHandler = () => {
+    dispatch(toggleTheme());
+  };
 
   const fetchExpenses = () => {
     axios
@@ -118,7 +130,24 @@ const ExpenseForm = () => {
   return (
     <>
       <Header />
-      <div className="bg-stone-100 min-h-screen p-10">
+      {/* logic for theme */}
+      <div className="absolute top-24 right-4 flex items-center">
+        <button
+          onClick={themeModeHandler}
+          className="px-4 py-2 bg-gray-200 dark:bg-gray-800 rounded-lg shadow-lg text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700"
+        >
+          {darkMode ? (
+            <img src={darkIcon} alt="Dark Mode Icon" className="w-5 h-5" />
+          ) : (
+            <img src={lightIcon} alt="Light Mode Icon" className="w-5 h-5" />
+          )}
+          <span className="ml-2">{darkMode ? "Dark Mode" : "Light Mode"}</span>
+        </button>
+      </div>
+      <div className={`${
+          darkMode ? "bg-white" : "bg-slate-900"
+        }`}> 
+      <div className="min-h-screen p-10">
         <div className="bg-white shadow-md w-full sm:w-full xl:w-full">
           <div className="bg-stone-200 sm:flex sm:justify-between shadow-lg">
             <h4 className="text-lg italic font-semibold border-l-4 border-emerald-700 pl-4 text-emerald-700 flex items-center justify-between">
@@ -243,6 +272,7 @@ const ExpenseForm = () => {
             )}
           </div>
         </div>
+      </div>
       </div>
     </>
   );
