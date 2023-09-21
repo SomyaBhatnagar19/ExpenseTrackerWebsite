@@ -1,6 +1,8 @@
 import React from "react";
+//icons
 import EditBtn from "./assets/Edit.png";
 import DeleteBtn from "./assets/Delete.png";
+import excelIcon from './assets/excel.png';
 
 const ExpenseReport = ({ expenses, onDelete, onEdit }) => {
   // Calculate total expense
@@ -55,23 +57,36 @@ const ExpenseReport = ({ expenses, onDelete, onEdit }) => {
           ))}
         </tbody>
       </table>
-
+      <hr className="border border-emerald-500 my-2"></hr>
       <div className="flex justify-between items-center p-2">
-        <span className="text-left text-lg font-semibold text-emerald-700 italic">
-          Total Expense
-        </span>
-        <span className="text-right text-md font-bold text-emerald-700 italic">
-          Rs. {totalExpense} /-
-        </span>
-        {totalExpense > 10000 && (
-          <button
-            type="button"
-            className="bg-orange-500 text-white p-2 rounded hover:bg-orange-200 ml-2"
-          >
-            Activate Premium
-          </button>
-        )}
-      </div>
+  <span className="text-left text-lg font-semibold text-emerald-700 italic">
+    Total Expense
+  </span>
+  <span className="text-right text-md font-bold text-emerald-700 italic">
+    Rs. {totalExpense} /-
+  </span>
+  <button
+    type="button"
+    onClick={downloadCsv}
+    className="flex items-center"
+  >
+    <p className="mr-2">Download report.</p>
+    <div className="bg-blue-500 rounded-full p-1">
+    <img src={excelIcon} alt="download-excel-file" className="w-10 h-10" />
+    </div>
+    
+  </button>
+  {totalExpense > 10000 && (
+    <button
+      type="button"
+      className="bg-orange-500 text-white p-2 rounded hover:bg-orange-200 ml-2"
+    >
+      Activate Premium
+    </button>
+  )}
+</div>
+
+      
     </div>
   );
 };
